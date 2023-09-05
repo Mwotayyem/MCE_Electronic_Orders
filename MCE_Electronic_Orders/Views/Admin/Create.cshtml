@@ -1,0 +1,216 @@
+﻿@model User
+@{
+    ViewData["Title"] = "انشاء حساب جديد";
+}
+<link href="~/css/Login/style.css" rel="stylesheet" />
+
+<style>
+    .signup-form {
+        margin-left: 75px;
+        margin-right: 75px;
+        font-size: 19px;
+        padding-left: 34px;
+        text-align: right;
+    }
+</style>
+
+
+<div class="text-danger" asp-validation-summary="All"></div>
+
+
+<script>
+    function comfun() {
+        var xx = document.getElementById('USERTYPE');
+        var Val = xx.value;
+        if (Val==3) {
+            document.getElementById('sss').style.display = 'block';
+             document.getElementById('MMMM').style.display = 'none'; }
+
+        
+       else if (Val == 1)
+       {
+           document.getElementById('MMMM').style.display = 'block';
+           document.getElementById('sss').style.display = 'none';
+       }
+        else if (Val == 2  ) {
+            document.getElementById('MMMM').style.display = 'none';
+            document.getElementById('sss').style.display = 'none';
+        }
+        else if (Val == 4) {
+            document.getElementById('MMMM').style.display = 'none';
+            document.getElementById('sss').style.display = 'none';
+        }
+    }
+    
+
+    function validatePassword() {
+        var password = document.getElementById("password")
+        confirm_password = document.getElementById("confirm_password");
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword
+
+
+
+</script>
+
+
+
+<h2 style=" font-weight: 800; color: white; background-color: #2c3e50; font-family: Arial; text-align:center; ">انشاء مستخدم جديد</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form method="post">
+
+    <!-- Sign up form -->
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form" style="margin-right: 4%;">
+                    <div class="signin-image">
+                        <figure><img src="~/img/newmce.png" alt="sing up image"></figure>
+
+                    </div>
+
+                    <form method="POST" class="register-form" id="register-form">
+                        <div class="form-group">
+                            @*<label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>*@
+                            <label class="form-group" style="display: contents;">     اسم المستخدم</label>
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            @*<label for="email"><i class="zmdi zmdi-email"></i></label>
+                        <input type="email" name="email" id="email" placeholder="الايميل " required />*@
+                            <label class="form-group" style="display: contents;">      البريد الالكتروني</label>
+                            <input asp-for="Email" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-group" style="display: contents;">     رقم الهاتف</label>
+                            <input asp-for="PHONENUM" placeholder="00962" required />
+                        </div>
+
+                        <div class="form-group">
+                            @*<label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" />*@
+                            <label asp-for="Password"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="Password" asp-for="Password" name="password" id="password" onchange="validatePassword()" placeholder="الرقم السري" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password"><i class="zmdi zmdi-lock-outline"></i></label>
+                            <input type="password" name="confirm_password" id="confirm_password" onchange="validatePassword()" placeholder="اعادة كتابة الرقم السري" required />
+                        </div>
+
+                        <div class="from-group">
+                            <label class="form-group" style="display: table-cell;">      نوع المستخدم : </label>
+                            <select asp-for="USERTYPE" onchange="comfun()" required class="form-group" style="height: 51px; text-align: center; width: 100%; border: none; border-bottom: 1px solid #999; padding: 6px 30px; font-family: Poppins; box-sizing: border-box;">
+                                <option value="">--اختر--</option>
+                                <option value="1">سوق</option>
+                                <option value="2">مديرية</option>
+                                <option value="3">شركة</option>
+                                <option value="4">مدير</option>
+                            </select>
+                            <br><br>
+
+                        </div>
+
+                        <div class="col-12" id="sss" style="display: none; margin-top: -38px;">
+                            <div class="row">
+                                <input asp-for="BRANCHID" style="visibility:hidden" />
+
+                                <div class="form-group col-8">
+                                    <label class="control-label"></label>
+                                    <select id="BRANCHID2" class="form-control" asp-items="ViewBag.CompNo">
+                                        <option>--أختر--</option>
+                                    </select>
+                                    <span asp-validation-for="BRANCHID" class="text-danger"></span>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-12" id="MMMM" style="display: none;">
+                            <div class="row">
+
+                                <div class="form-group col-8">
+                                    <label class="control-label"></label>
+                                    <select id="StoreCode" class="form-control" asp-items="ViewBag.CompName">
+                                        <option>--أختر--</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" required />
+                            <label for="agree-term" class="label-agree-term"><span><span></span></span>اوافق على جميع الشروط و الاحكام  <a href="#" class="term-service"></a></label>
+                        </div>
+                        <div class="form-group form-button">
+                            <button type="submit" class="btn btn-primary">تسجيل</button>
+
+                            @*<input type="submit" name="signup" id="signup" class="form-submit" value="تسجيل" />*@
+
+                        </div>
+
+
+                    </form>
+                    <a href="/Account/Login" class="images/newmce.png">انا لدي حساب مسبقا </a>
+                </div>
+
+            </div>
+            <a asp-action="Index" class="btn btn-secondary">رجوع</a>
+        </div>
+        <div>
+            <a href="tel:00962771099600"> (00962771099600):اضغط هنا للاتصال بمركز المساعدة</a>
+        </div>
+        
+    </section>
+
+    @*<div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+        </div>*@
+
+
+    <script src="~/js/jquery3.3.1.js"></script>
+    <script>
+        $("[id$=BRANCHID2]").on('change', function () {
+
+            var BRANCHID = $("#BRANCHID2").val();
+
+            $('#BRANCHID').val(BRANCHID);
+
+
+        });
+
+        $("[id$=StoreCode]").on('change', function () {
+
+            var BRANCHID = $("#StoreCode").val();
+
+
+            $('#BRANCHID').val(BRANCHID);
+
+
+        });
+    </script>
+    
+</form>

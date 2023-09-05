@@ -1,0 +1,155 @@
+﻿body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+
+}
+
+#mainTable {
+    width: 50%;
+}
+
+h1 {
+    width: 50%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#mainTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    direction: rtl;
+}
+
+    #mainTable th, #mainTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+   
+
+    #mainTable th {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+
+/* تنسيق الجدول الفرعي */
+#subTable {
+    width: 100%;
+    border-collapse: collapse;
+    display: none;
+    margin-top: 20px;
+    direction: rtl;
+}
+
+    #subTable th, #subTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    #subTable tr:nth-child(even) {  
+        background-color: #f2f2f2;
+    }
+
+    #subTable th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+#acceptedItemInfo {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    direction: rtl;
+}
+
+    #acceptedItemInfo th, #acceptedItemInfo td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    #acceptedItemInfo tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #acceptedItemInfo th {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* استخدام نفس الأزرار في جدول subTable لجدول معلومات الصف المقبول */
+    #acceptedItemInfo button {
+        margin: 5px;
+        padding: 5px 10px;
+        border: none;
+        background-color: #007BFF;
+        color: #fff;
+        cursor: pointer;
+    }
+
+        #acceptedItemInfo button:hover {
+            background-color: #0056b3;
+        }
+
+
+
+
+/* تنسيق الزر "تعديل الكمية" و"حذف" */
+button {
+    padding: 5px 10px;
+    background-color: #008CBA;
+    color: white;
+    cursor: pointer;
+    margin: 2px;
+   
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#subTable {
+    width: 100%;
+}
+
+h1 {
+    width: 50%;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #9eefb7;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#acceptedItemInfo {
+    width: 100%;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+}
+tr.selected {
+    background-color: lightblue; /* يمكنك تغيير اللون حسب التفضيل */
+}
+
+.img_logo {
+    display: block;
+    width: 20%;
+    margin: auto;
+
+}

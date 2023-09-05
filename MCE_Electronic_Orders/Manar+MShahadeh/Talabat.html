@@ -1,0 +1,102 @@
+﻿
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <title> الطلبية الإلكترونية</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="css/bootstrap.min (3).css" rel="stylesheet" />
+
+    <link href="css.css" rel="stylesheet" />
+
+</head>
+<body>
+       <center>  <h1 style=" color:white;text-shadow: 1px 1px 2px black,0 0 25px green, 0 0 5px darkgreen; "> الطلبية الإلكترونية</h1></center>
+    <img src="img/newmce.jpg" style="width: 10%;
+    margin-right: 46%;">
+    <div class=" container" onload="CheckBtnSave()">
+
+        <br />
+        <br />
+        <div style="DISPLAY: FLEX;" >
+            <label for="company">اختر اسم الشركة:</label>
+            <select id="company" onchange="showPhoneNumber()" style="width:20%;height:30px;text-align:center;">
+                <option value="" disabled selected>اختر شركة</option>
+                <option value="company1">الشركة الوطنية</option>
+                <option value="company2">المؤسسة العربية</option>
+                <option value="company3">المؤسسة الاستهلاكية</option>
+                <!-- أضف المزيد من خيارات الشركات هنا -->
+            </select>
+
+            <div id="phoneContainer" class="hidden">
+                <label for="phone" style="display:inline">   رقم هاتف الشركة: </label>
+                <input type="text" id="phone" readonly>
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <!-- جدول إدخال بيانات المادة -->
+        <left> <h1 style="color: #cd9269; text-shadow: -1px 0 black,1px 0 black,0px 0 black ">اضافة المادة</h1></left>
+        <table id="hr">
+            <thead>
+                <tr>
+                    <td>
+                        <label for="materialNumber">رقم المادة:     <input type="Number" id="materialnumber" onchange="myfun(event)" > </label>
+                        
+
+                    </td>
+                    <td>
+                        <label for="material" id="ItemName" > اسم المادة:</label>
+
+                    </td>
+                    <td>
+                        <label for="quantity">الكمية:  <input type="number" id="quantity"></label>
+
+                    </td>
+
+                </tr>
+
+            </thead>
+
+        </table>
+        <br />
+        <br />
+        <button onclick="addMaterial()" style=" width: 7%; height: 30%;">إضافة</button>
+        <!--<br />
+        <br />
+        <button onclick="addMaterial()" class="badge bg-success" style=" width: 7%; height: 30%;">إضافة</button>-->
+        <br />
+        <br />
+        <br />
+        <!-- جدول عرض البيانات -->
+        <left><h2 style="color: #cd9269; text-shadow: -1px 0 black,1px 0 black,0px 0 black ">بيانات المواد</h2></left>
+        <table id="materialTable">
+            <thead>
+                <tr>
+                    <th>التسلسل</th>
+                    <th>رقم المادة</th>
+                    <th>اسم المادة</th>
+                    <th>الكمية</th>
+                    <th>صورة المادة</th>
+                    <th>الإجراء</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- سيتم إضافة البيانات هنا من خلال JavaScript -->
+
+
+            </tbody>
+        </table>
+        <br />
+        <!-- زر حفظ -->
+        <button id="BtnSave" onclick="saveData()" disabled style=" width: 7%; height: 30%;" >انهاء</button>
+        <br />
+        <br />
+    </div>
+   
+        <script src="js.js"></script>
+       
+</body>
+</html>

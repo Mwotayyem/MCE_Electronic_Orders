@@ -1,0 +1,388 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>جدول الطلبيات</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="StyleSheet.css" rel="stylesheet" />
+    <link href="StyleSheet.css" rel="stylesheet" />
+    <link href="Assest/css/bootstrap.min.css" rel="stylesheet" />
+    <script>
+
+        const ordersData = [
+            {
+                id: 1, date: '2023-07-31 10:00', market: 'سوق سحاب', user: 'محمد التيم', status: 'تحت الطلب', items: [
+                    { sequence: 1, number: 10505066, name: 'ارز بسمتي', quantity: 500, image: 'NewFolder1/WwWZCPybkXIHCvkrENm51xOPqPJiTc3RcJwD5cP2.jpg' },
+                    { sequence: 2, number: 10209077, name: 'سكر نادر', quantity: 200, image: 'NewFolder1/6251088000039.jpg' }
+                ]
+            },
+            {
+                id: 2, date: '2023-08-01 15:30', market: ' سوق ساكب', user: 'ايمن العياصرة', status: 'تحت الطلب', items: [
+                    { sequence: 1, number: 10301124, name: 'بوظة علب', quantity: 100, image: 'NewFolder1/Arz-cream-(Strawberry-Cheesecake)-Small.png' }
+                ]
+            },
+            {
+                id: 3, date: '2023-07-31 10:00', market: 'سوق السلام', user: 'رائد', status: 'تحت الطلب', items: [
+                    { sequence: 1, number: 10409090, name: 'فول الكسيح', quantity: 600, image: 'NewFolder1/573648_main.jpg' },
+                    { sequence: 2, number: 10808088, name: 'بسكوت مالح', quantity: 800, image: 'NewFolder1/66YGLhJ6_400x400.jpg' }
+                ]
+            },
+            {
+                id: 4, date: '2023-07-31 10:00', market: 'سوق ياجوز', user: 'محمد شحادة', status: 'تحت الطلب', items: [
+                    { sequence: 1, number: 10507748, name: 'حمص الكسيح', quantity: 1000, image: 'NewFolder1/632700_main.jpg' },
+                    { sequence: 2, number: 10506070, name: 'زيت عافية', quantity: 600, image: 'NewFolder1/561955_0.jpg' }
+                ]
+            }
+        ];
+
+        // عرض بيانات الطلبيات في الجدول الرئيسي عند تحميل الصفحة
+        let isAcceptedTableOpen = false;
+        document.addEventListener('DOMContentLoaded', function () {
+            displayMainTable();
+        });
+
+        function displayMainTable() {
+            const mainTable = document.getElementById('mainTable');
+            mainTable.innerHTML = `<tr>
+                        <th>رقم الطلب</th>
+                        <th>تاريخ الطلب</th>
+                        <th>اسم السوق</th>
+                        <th>اسم المستخدم</th>
+                        <th>حالة الطلب</th>
+                    </tr>`;
+
+            for (const order of ordersData) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td onclick="onOrderIdClick(${order.id})" data-orderid="${order.id}">${order.id}</td>
+                            <td>${order.date}</td>
+                            <td>${order.market}</td>
+                            <td>${order.user}</td>
+                            <td>${order.status}</td>`;
+                mainTable.appendChild(row);
+            }
+        }
+
+        let currentOrderId;
+        function displaySubTable(orderId) {
+            isAcceptedTableOpen = true;
+            currentOrderId = orderId;
+            const order = ordersData.find(order => order.id === orderId);
+            if (order) {
+                const subTable = document.getElementById('subTable');
+                subTable.innerHTML = `<tr>
+                    <th>تسلسل</th>
+                    <th>رقم المادة</th>
+                    <th>اسم المادة</th>
+                    <th>الكمية</th>
+                    <th>صورة للمادة</th>
+                    <th>العمليات</th>
+                </tr>`;
+
+                for (const item of order.items) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${item.sequence}</td>
+                        <td>${item.number}</td>
+                        <td>${item.name}</td>
+                        <td>${item.quantity}</td>
+                        <td><img src="${item.image}" alt="صورة المادة"></td>
+                        <td>
+                            <button onclick="editQuantity(this.parentElement.parentElement)">تعديل</button>
+                            <button style="background-color: #FF0000;" onclick="deleteItem(this.parentElement.parentElement)">حذف</button>
+                            <button style="background-color: #58b930;" button onclick="acceptItem(this.parentElement.parentElement)">قبول</button>
+                        </td>`;
+                    subTable.appendChild(row);
+                }
+
+                subTable.style.display = 'table';
+                document.getElementById("moh").style.display = 'block';
+            }
+        }
+
+        function onOrderIdClick(orderId) {
+            if (isAcceptedTableOpen) {
+                // عرض رسالة تأكيد الخروج قبل فتح جدول المواد المقبولة مرة أخرى
+                if (confirm('هل أنت متأكد من أنك تريد الخروج؟')) {
+                    clearSubTable();
+                    selectRowAndDisplaySubTable(orderId);
+                    isAcceptedTableOpen = false;
+                } else {
+                    return;
+                }
+            } else {
+                selectRowAndDisplaySubTable(orderId);
+            }
+        }
+
+        function selectRowAndDisplaySubTable(orderId) {
+            const rows = document.getElementById('mainTable').getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) {
+                rows[i].classList.remove('selected');
+            }
+
+            const row = document.getElementById('mainTable').querySelector(`tr td:first-child[data-orderid="${orderId}"]`);
+            row.parentElement.classList.add('selected');
+
+            displaySubTable(orderId);
+        }
+
+        let currentSelectedRow;
+
+        function editQuantity(row) {
+            currentSelectedRow = row;
+            const quantityCell = row.cells[3];
+            const currentQuantity = parseInt(quantityCell.innerText);
+            const newQuantity = prompt('أدخل الكمية الجديدة:');
+            if (newQuantity !== null) {
+                const parsedNewQuantity = parseInt(newQuantity);
+                if (!isNaN(parsedNewQuantity) && parsedNewQuantity > 0) {
+                    if (parsedNewQuantity <= currentQuantity) {
+                        quantityCell.innerText = parsedNewQuantity;
+                    } else {
+                        alert('الكمية الجديدة لا يمكن أن تكون أكبر من الكمية الحالية.');
+                    }
+                } else {
+                    alert('الرجاء إدخال قيمة كمية صحيحة.');
+                }
+            }
+        }
+
+
+        function deleteItem(row) {
+            const rows = document.getElementById('subTable').getElementsByTagName('tr');
+            for (let i = 1; i < rows.length; i++) {
+                if (rows[i] === row) {
+                    // رسالة تأكيد الحذف من المستخدم
+                    const confirmDelete = confirm('هل أنت متأكد من أنك تريد حذف هذا الصف؟');
+                    if (confirmDelete) {
+                        // تلوين الصف باللون الأحمر إذا تم تأكيد الحذف
+                        rows[i].style.backgroundColor = '#FF0000'; // لون أحمر
+                        rows[i].classList.add('deleted'); // إضافة الكلاس للتحكم بالأنماط المخصصة
+                        const buttons = rows[i].getElementsByTagName('button');
+                        for (let j = 0; j < buttons.length; j++) {
+                            buttons[j].disabled = true;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+
+        function returnAcceptedItem(row) {
+            // قم بإزالة تأثير الحذف عن السطر المحذوف
+            row.style.display = 'table-row';
+
+            // إزالة التصميم المتعلق بالحذف
+            row.classList.remove('deleted');
+            const buttons = row.getElementsByTagName('button');
+            for (let j = 0; j < buttons.length; j++) {
+                buttons[j].disabled = false;
+
+            }
+
+            // إعادة إضافة السطر المحذوف إلى جدول المواد الفرعي
+            const subTable = document.getElementById('subTable');
+            subTable.appendChild(row);
+
+            // إخفاء جدول معلومات الصف المقبول
+            const acceptedItemInfo = document.getElementById('acceptedItemInfo');
+            // acceptedItemInfo.style.display = 'none';
+            document.getElementById('mm').style.display = 'none';
+            //document.getElementById('finishButton').style.display = 'none';
+        }
+
+        //function deleteAcceptedItem(row) {
+        //    row.remove();
+        //    const rows = document.getElementById('acceptedItemInfo').getElementsByTagName('tr');
+        //    for (let i = 1; i < rows.length; i++) {
+        //        rows[i].cells[0].innerText = i; // تحديث التسلسل بعد حذف الصف
+        //        var index = acceptedItemInfo.rows[i + 1].rowIndex;
+        //        acceptedItemInfo.deleteRow(index);
+        //        j--;
+        //    }
+        //}
+
+        function deleteAcceptedItem(row) {
+            const index = row.rowIndex; // حصول على مؤشر الصف الحالي
+            row.remove();
+
+            const rows = acceptedItemInfo.getElementsByTagName('tr');
+            for (let i = index; i < rows.length; i++) {
+                rows[i].cells[0].innerText = i; // تحديث التسلسل بعد حذف الصف
+            }
+            acceptedItemsCount--; // تخفيض عدد المواد المقبولة
+
+        }
+
+
+
+
+        let acceptedItemsCount = 1;
+        function acceptItem(row) {
+
+            const quantityCell = row.cells[3];
+            const modifiedQuantity = parseInt(quantityCell.innerText);
+            const itemImage = row.cells[4].querySelector('img').src;
+            const itemNumber = row.cells[1].innerText;
+            const itemName = row.cells[2].innerText;
+
+            // نسخ البيانات من السطر المحدد
+            const newRow = row.cloneNode(true);
+
+            // إزالة الأزرار من السطر المنسوخ
+            newRow.querySelector('td:last-child').innerHTML = '';
+
+            // إضافة السطر المنسوخ إلى نهاية الجدول الفرعي
+            //const acceptedItemInfo = document.getElementById('acceptedItemInfo');
+            //acceptedItemInfo.appendChild(newRow);
+
+            // حذف السطر الأصلي
+            row.style.display = 'none';
+
+            // عرض معلومات الصف المقبول
+            acceptedItemInfo.style.display = 'table';
+            document.getElementById('mm').style.display = 'block';
+            document.getElementById('finishButton').style.display = 'block';
+
+
+            // إضافة الصف المقبول إلى جدول معلومات الصف المقبول
+            const acceptedItemRow = document.createElement('tr');
+            acceptedItemRow.innerHTML = `
+            <td>${acceptedItemsCount}</td>
+            <td>${itemNumber}</td>
+            <td>${itemName}</td>
+            <td>${modifiedQuantity}</td>
+            <td><img src="${itemImage}" alt="صورة المادة"></td>
+        `;
+            const returnButton = document.createElement('button');
+            returnButton.innerText = 'حذف';
+            returnButton.onclick = function () {
+                returnAcceptedItem(row);
+                deleteAcceptedItem(this.parentElement.parentElement)
+            };
+
+
+            const actionsCell = acceptedItemRow.insertCell();
+            actionsCell.appendChild(returnButton);
+            acceptedItemInfo.appendChild(acceptedItemRow);
+
+            // زيادة قيمة التسلسل بمقدار 1 للصف القادم
+            acceptedItemsCount++;
+
+        }
+
+
+
+        function finishOrder() {
+            const orderId = currentOrderId;
+            const order = ordersData.find(order => order.id === orderId);
+            if (order) {
+                order.status = 'قيد التسليم';
+                lastAcceptedItems = Array.from(document.getElementById('acceptedItemInfo').rows); // حفظ الجدول الأخير في المصفوفة
+                displayMainTable(); // إعادة عرض الجدول الرئيسي بعد التحديث
+                clearSubTable();
+            }
+            // إخفاء جدول معلومات الصف المقبول والزر "انهاء"
+            document.getElementById("acceptedItemInfo").style.display = 'none';
+            document.getElementById("finishButton").style.display = 'none';
+        }
+
+        function clearSubTable() {
+            const acceptedItemInfo = document.getElementById('acceptedItemInfo');
+            acceptedItemInfo.innerHTML = `<tr>
+                        <th>تسلسل</th>
+                        <th>رقم المادة</th>
+                        <th>اسم المادة</th>
+                        <th>الكمية</th>
+                        <th>صورة للمادة</th>
+                    </tr>`;
+            acceptedItemInfo.style.display = 'none';
+            document.getElementById('mm').style.display = 'none';
+            isAcceptedTableOpen = false;
+        }
+
+        let lastAcceptedItems = [];
+    </script>
+    <style>
+        /* الأنماط الأخرى الموجودة في الصفحة */
+
+        /* تعيين قوة الخط بقيمة 200 لجميع العناصر */
+        body, h1, h2 {
+            font-weight: 200;
+        }
+    </style>
+
+   
+
+    <style>
+        /* أسلوب عرض الصورة في جدول معلومات الصف المقبول */
+        #acceptedItemInfo img {
+            max-width: 70%;
+            max-height: 70px; /* ارتفاع الصورة يمكن تعديله حسب الرغبة */
+        }
+    </style>
+    <style>
+        /* أسلوب عرض الصورة في جدول معلومات الصف المقبول */
+        #subTable img {
+            max-width: 70%;
+            max-height: 70px; /* ارتفاع الصورة يمكن تعديله حسب الرغبة */
+        }
+    </style>
+</head>
+<body>
+    
+        
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <img src="NewFolder1/new logo pic.png" class="img-fluid img_logo" />
+                
+            </div>
+        </div>
+        <h1 style="background-color: #4CAF50;",>شاشة الطلبيات</h1>
+
+        <table id="mainTable">
+            <!-- جدول الطلبيات الحالي -->
+        </table>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <h1 id="moh" style="display: none; background-color: #4CAF50; ">شاشة مواد الطلبيات</h1>
+
+        <table id="subTable" style="display:none;">
+            <tr>
+                <th>تسلسل</th>
+                <th>رقم المادة</th>
+                <th>اسم المادة</th>
+                <th>الكمية</th>
+                <th>صورة للمادة</th>
+            </tr>
+            <!-- صفوف جدول الطلبات الفرعي هنا -->
+        </table>
+
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <h1 id="mm" style="display:none; ">شاشة المواد</h1>
+
+        <table id="acceptedItemInfo" style="display:none;">
+            <tr>
+                <th>تسلسل</th>
+                <th>رقم المادة</th>
+                <th>اسم المادة</th>
+                <th>الكمية</th>
+                <th>صورة للمادة</th>
+               
+
+        </table>
+        <button id="finishButton" style="display:none;" onclick="finishOrder()">انهاء</button>
+    </div>
+    
+</body>
+    
+</html>

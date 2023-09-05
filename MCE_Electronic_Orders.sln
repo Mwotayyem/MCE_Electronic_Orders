@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33529.622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MCE_Electronic_Orders", "MCE_Electronic_Orders\MCE_Electronic_Orders.csproj", "{B33B6CD8-A551-4DA3-8EC9-286C78932570}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B33B6CD8-A551-4DA3-8EC9-286C78932570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B33B6CD8-A551-4DA3-8EC9-286C78932570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B33B6CD8-A551-4DA3-8EC9-286C78932570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B33B6CD8-A551-4DA3-8EC9-286C78932570}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2B3043BE-737C-4082-8EBA-3CEC313A3DC9}
+	EndGlobalSection
+EndGlobal

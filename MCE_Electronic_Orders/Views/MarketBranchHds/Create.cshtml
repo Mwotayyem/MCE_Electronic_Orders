@@ -1,0 +1,585 @@
+﻿@model MCE_Electronic_Orders.Models.Mixed_Header_Details
+
+@{ ViewData["Title"] = "Create"; }
+
+<h4>اضافة طلبية جديدة</h4>
+<hr />
+@{ int Order_No = 0; }
+<div class="row">
+    <div class="container">
+        <div class="col-md-12">
+            <form asp-action="Create" id="myForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="CompName" class="form-control" style="visibility:hidden" />
+                <div class="form-group" style="text-align: center; visibility:hidden">
+                    <label asp-for="OrderNo2" class="control-label"></label>
+                    <input asp-for="OrderNo2" class="form-control" />
+                    <span asp-validation-for="OrderNo2" class="text-danger"></span>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-active" style="border-radius:5px">
+                            <th></th>
+                            <th style="text-align: left;">معلومات الفاتورة</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="table-primary">
+
+                            <td style="text-align: center;">
+                                <div class="form-group">
+                                    <label asp-for="OrderNo" class="control-label"></label>
+                                    <input asp-for="OrderNo" class="form-control" />
+                                    <span asp-validation-for="OrderNo" class="text-danger"></span>
+                                </div>
+                            </td>
+
+
+
+
+                            <td style="text-align: center;">
+                                <div class="form-group">
+                                    <label asp-for="ReceiptSer" class="control-label"></label>
+                                    <input asp-for="ReceiptSer" class="form-control" />
+                                    <span asp-validation-for="ReceiptSer" class="text-danger"></span>
+                                </div>
+                            </td>
+                            @*<td>
+                        <div class="form-group">
+                            <label asp-for="ItemStatus" class="control-label"></label>
+                            <input asp-for="ItemStatus" class="form-control" />
+                            <span asp-validation-for="ItemStatus" class="text-danger"></span>
+                        </div>
+                    </td>*@
+                            <td style="text-align: center;">
+                                <div class="form-group">
+                                    <label asp-for="Status" class="control-label"></label>
+                                    <input id="Status_Desc" class="form-control" readonly />
+                                    <input type="hidden" asp-for="Status" class="form-control" readonly />
+                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                    <input type="hidden" asp-for="AggNo" class="form-control" readonly />
+                                </div>
+                            </td>
+                            @*<td style="text-align: center;">
+                        <div class="form-group">
+                            <label asp-for="AggNo" class="control-label"></label>
+                            <input asp-for="AggNo" class="form-control" readonly />
+                            <span asp-validation-for="AggNo" class="text-danger"></span>
+                        </div>
+                    </td>*@
+                            <td style="text-align: center;">
+
+                                <div class="form-group">
+                                    <label class="control-label">اسم السوق</label>
+                                    <input id="MarketName" class="form-control" readonly />
+                                    <input type="hidden" asp-for="BranchIdNo" class="form-control" readonly />
+                                    <span asp-validation-for="BranchIdNo" class="text-danger"></span>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-active" style="border-radius:5px">
+                            <th style="text-align: left;">الشركة</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="table-primary">
+                            <td style="text-align: center; width: 50%;">
+                                <div class="form-group" style="text-align: center;">
+
+                                    <label asp-for="CompName" class="control-label"></label>
+                                    <select id="CompName_DDL" asp-for="CompName" class="js-example-basic-single form-control" asp-items="ViewBag.CompNo">
+                                        <option>--أختر--</option>
+                                    </select>
+                                    <span asp-validation-for="CompName" class="text-danger"></span>
+                                </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <div class="form-group" style="text-align: center;">
+                                    <label asp-for="CompNo" class="control-label"></label>
+                                    <input asp-for="CompNo" class="form-control" />
+                                    <span asp-validation-for="CompNo" class="text-danger"></span>
+                                </div>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+                <br />
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-active" style="border-radius:5px">
+                            <th></th>
+                            <th style="text-align: left;">اضافة مادة</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="table-primary">
+
+                            <td style="text-align: center;">
+                                <div class="form-group">
+                                    <label class="control-label">الباركود</label>
+                                    <input id="Txt_Barcode" class="form-control" autocomplete="off" />
+                                </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <div class="form-group">
+                                    <label asp-for="ItemNo" class="control-label"></label>
+                                    <input asp-for="ItemNo" id="ItemNo" class="form-control" autocomplete="off" readonly />
+                                    <span asp-validation-for="ItemNo" class="text-danger"></span>
+                                </div>
+
+
+
+
+                                @*<div class="form-group">
+                            <input type="submit" value="Generate Barcode" class="btn btn-primary" />
+
+                        </div>*@
+                            </td>
+
+
+                            <td style="text-align: center;">
+                                <div class="form-group">
+                                    <label asp-for="ItemName" class="control-label"></label>
+                                    <input asp-for="ItemName" class="form-control" autocomplete="off" readonly />
+                                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                                </div>
+                            </td>
+
+                            <td style="text-align: center;">
+                                <div class="form-group">
+                                    <label asp-for="ItemQty" class="control-label"></label>
+                                    <input asp-for="ItemQty" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="ItemQty" class="text-danger"></span>
+                                </div>
+                                <input type="hidden" asp-for="ItemPrice" class="form-control" autocomplete="off" readonly />
+                                <input type="hidden" asp-for="ItemTotalPrice" class="form-control" autocomplete="off" readonly />
+
+                            </td>
+                            @*<td>
+                        <div class="form-group">
+                            <label asp-for="ItemStatus" class="control-label"></label>
+                            <input asp-for="ItemStatus" class="form-control" />
+                            <span asp-validation-for="ItemStatus" class="text-danger"></span>
+                        </div>
+                    </td>*@
+                            @*<td style="text-align: center;">
+                        <div class="form-group">
+                            <label asp-for="ItemPrice" class="control-label"></label>
+                            <input asp-for="ItemPrice" class="form-control" autocomplete="off" readonly />
+                            <span asp-validation-for="ItemPrice" class="text-danger"></span>
+                        </div>
+                    </td>*@
+
+                            @*<td style="text-align: center;">
+
+                        <div class="form-group">
+                            <label asp-for="ItemTotalPrice" class="control-label"></label>
+                            <input asp-for="ItemTotalPrice" class="form-control" autocomplete="off" readonly />
+                            <span asp-validation-for="ItemTotalPrice" class="text-danger"></span>
+                        </div>
+                    </td>*@
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+               @if (!User.IsInRole("admin"))
+                {
+                <div class="form-group">
+                    <input type="submit" value="اضافة" class="btn btn-outline-success" />
+                </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+<h2>معلومات الطلب</h2>
+<table class="table table-hover" style="text-align: center;">
+    <thead>
+        <tr class="table-active">
+            <th>
+                @Html.DisplayNameFor(model => model.OrderNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiptSer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                الاجراء
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Header_Collection)
+        {
+            <tr class="table-primary">
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiptSer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                @{ Order_No = int.Parse(item.OrderNo.ToString()); }
+
+                <td style="text-align: center;">
+                    @*<a asp-action="Edit" asp-route-id="@item.OrderNo" class="btn btn-info">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.OrderNo" class="btn btn-info">Details</a> |*@
+                    <a asp-action="Delete" asp-route-id="@item.OrderNo" class="btn btn-danger">حذف الطلب</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<br />
+<h2>معلومات المواد</h2>
+
+<table class="table table-bordered" style="text-align: center;">
+    <thead>
+        <tr class="table-active">
+            <th>
+                @Html.DisplayNameFor(model => model.ItemNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemQty)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ItemStatus)
+                </th>*@
+
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ItemPrice)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ItemTotalPrice)
+                </th>*@
+
+            <th>
+                الاجراء
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Details_Collection)
+        {
+            <tr class="table-primary">
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemQty)
+                </td>
+                @* <td>
+                        @Html.DisplayFor(modelItem => item.ItemStatus)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemTotalPrice)
+                    </td>*@
+
+                <td style="text-align: center;">
+                    @*<a asp-action="Edit" asp-route-id="@item.BranchIdNo" class="btn btn-info">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.BranchIdNo" class="btn btn-info">Details</a> |*@
+                    <a asp-action="Delete" asp-route-id="@item.BranchIdNo" asp-controller="MarketBranchDtls" class="btn btn-danger">حذف المادة</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<div>
+    @*@Html.ActionLink("انهاء الفاتورة ", "Edit_Flag", "", htmlAttributes: new { order = Order_No, @class = "btn btn-outline-danger" })*@
+    @{
+        if (Model.Details_Collection.ToList().Count>0)
+        {
+        @if (!User.IsInRole("admin"))
+                {
+        @Html.ActionLink("حفظ الطلب", "Edit_Flag", new { order = @Order_No }, htmlAttributes: new { @class = "btn btn-outline-danger" })
+        }
+    }
+    }
+
+        @*<input type="submit" value="انهاء الفاتورة" class="nav-link" asp-controller="MarketBranchHds" asp-action="Edit_Flag" asp-route-id="1" />*@
+        @*<a class="nav-link" asp-controller="MarketBranchHds" asp-action="Edit_Flag" asp-route-id="1">انهاء</a>*@
+
+    </div>
+<br />
+
+
+@*<div>
+        <a asp-action="Index" class="btn btn-info">Back to List</a>
+    </div>*@
+
+
+
+<script src="~/js/jquery3.3.1.js"></script>
+
+@*<script src="~/js/jquery3.3.1.js"></script>*@
+<link href="~/css/Searchable_DDL/select2.css" rel="stylesheet" />
+<script src="~/js/Searchable_DDL/2.1.3jquery.js"></script>
+
+
+<script src="~/js/Searchable_DDL/select2.full.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#ItemNo').val('');
+        $('#Txt_Barcode').val('');
+        $('#ItemName').val('');
+        $('#ItemQty').val('');
+        $('#ItemPrice').val('');
+        $('#ItemTotalPrice').val('');
+
+
+
+        $.ajax({
+            url: "/MarketBranchHds/GetCurr_Status",
+            type: "POST",
+            data: { "type": 2, "code": 1 },
+            success: function (response) {
+                $(response).each(function () {
+
+                    $('#Status_Desc').val(this.descertion);
+                    $('#Status').val(this.code);
+
+                })
+            },
+            error: function (request, status, error) {
+
+            }
+        });
+
+
+        $.ajax({
+            url: "/MarketBranchHds/GetMaxOrder",
+            type: "POST",
+            data: {},
+            success: function (response) {
+                $(response).each(function () {
+                    $('#OrderNo').val(response);
+                    $('#OrderNo2').val(response);
+                    $('#OrderNo').prop('readonly', true);
+                    $('#OrderNo2').prop('readonly', true);
+                    $('#CompNo').prop('readonly', true);
+
+                })
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+                alert("No")
+
+            }
+        });
+
+        $.ajax({
+            url: "/MarketBranchHds/ReceiptSer",
+            type: "POST",
+            data: {},
+            success: function (response) {
+                $(response).each(function () {
+                    $('#ReceiptSer').val(response);
+                    $('#ReceiptSer').prop('readonly', true);
+
+                })
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+                alert("No")
+
+            }
+        });
+
+        $.ajax({
+            url: "/MarketBranchHds/GetUserBranch1",
+            type: "POST",
+            data: {},
+            success: function (response) {
+                $(response).each(function () {
+                    $('#BranchIdNo').val(this.marketId);
+                    $('#MarketName').val(this.marketName);
+                    $('#BranchIdNo').prop('readonly', true);
+
+                })
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+                alert("No")
+
+            }
+        });
+
+        
+    });
+
+
+</script>
+
+<script>
+
+  
+    $("[id$=Txt_Barcode]").on('keyup', function () {
+        var itm_no = $("#Txt_Barcode").val();
+        var Comp_No = $("#CompNo").val();
+
+        if (itm_no.length >= 13) {
+            $.ajax({
+                url: "/MarketBranchHds/GetData",
+                type: "POST",
+                data: { "Barcode": itm_no, CompNo: Comp_No },
+                success: function (response) {
+                    $(response).each(function () {
+
+                        $('#ItemPrice').val(this.itemSalesPrice);
+                        $('#ItemPrice').prop('readonly', true);
+
+                        $('#ItemNo').val(this.itemCode);
+                        $('#ItemNo').prop('readonly', true);
+
+                        $('#ItemName').val(this.fullName);
+                        $('#ItemName').prop('readonly', true);
+
+                        $('#ItemQty').focus();
+
+
+                    })
+                },
+                error: function (request, status, error) {
+                    alert("هذه المادة ليست موجودة ضمن مواد هذه الشركة")
+
+                }
+            });
+        }
+    });
+
+    $("[id$=ItemQty]").on('change', function () {
+        var ItemQty = $("#ItemQty").val();
+        var ItemPrice = $("#ItemPrice").val();
+        $('#ItemTotalPrice').val(ItemQty * ItemPrice);
+        $('#ItemTotalPrice').prop('readonly', true);
+
+
+    });
+
+
+</script>
+@*<script>
+        const submit = document.getElementById('form-group');
+
+        btn.addEventListener('click', function handleClick(event) {
+            // 👇️ if you are submitting a form (prevents page reload)
+            event.preventDefault();
+
+            const vItemNo = document.getElementById('ItemNo');
+            const vItemName = document.getElementById('ItemName');
+            const vItemQty = document.getElementById('ItemQty');
+            const vItemPrice = document.getElementById('ItemPrice');
+            const vItemTotalPrice = document.getElementById('ItemTotalPrice');
+
+            // 👇️ clear input field
+            vItemNo.value = '';
+            vItemName.value = '';
+            vItemQty.value = '';
+            vItemPrice.value = '';
+            vItemTotalPrice.value = '';
+        });
+
+    </script>*@
+
+<script>
+
+    const form = document.getElementById('myForm');
+    form.addEventListener('keypress', function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+        }
+    });
+
+</script>
+
+
+
+
+
+@*<div class="form-group">
+        <label asp-for="CompName" class="control-label"></label>
+        <input asp-for="CompName" class="form-control" />
+    </div>*@
+
+
+@*<div class="form-group">
+        <label asp-for="AggNo" class="control-label"></label>
+        <input asp-for="AggNo" class="form-control" />
+        <span asp-validation-for="AggNo" class="text-danger"></span>
+    </div>*@
+@*@section Scripts{
+        @{ await Html.RenderPartialAsync("_ValidateionScriptsPartial");}
+    }*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

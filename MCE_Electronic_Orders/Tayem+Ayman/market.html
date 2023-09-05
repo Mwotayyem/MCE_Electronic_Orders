@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>جدول الطلبيات</title>
+    <!-- أسلوب التنسيق -->
+    <style>
+        /* الأنماط الأخرى الموجودة في الصفحة */
+        /* تعيين قوة الخط بقيمة 200 لجميع العناصر */
+        body, h1, h2 {
+            font-weight: 200;
+        }
+        /* أسلوب عرض الصورة في جدول معلومات الصف المقبول */
+        #acceptedItemInfo img {
+            max-width: 70%;
+            max-height: 70px; /* ارتفاع الصورة يمكن تعديله حسب الرغبة */
+        }
+
+        #acceptedItemInfo td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #acceptedItemInfo {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            direction: rtl;
+        }
+
+            #acceptedItemInfo th, #acceptedItemInfo td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            #acceptedItemInfo tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #acceptedItemInfo th {
+                background-color: #4CAF50;
+                color: white;
+                cursor: pointer;
+            }
+
+            /* استخدام نفس الأزرار في جدول subTable لجدول معلومات الصف المقبول */
+            #acceptedItemInfo button {
+                margin: 5px;
+                padding: 5px 10px;
+                border: none;
+                background-color: #007BFF;
+                color: #fff;
+                cursor: pointer;
+            }
+
+                #acceptedItemInfo button:hover {
+                    background-color: #0056b3;
+                }
+        button {
+            padding: 15px 60px;
+            background-color: #00ba1fc2;
+            color: white;
+            cursor: pointer;
+            margin: 42px;
+            font-size: 20px
+        }
+    </style>
+</head>
+<div class="container">
+    <h1 style="background-color: #4CAF50; text-align: center;">طلبيات سوق سحاب</h1>
+
+    <table id="acceptedItemInfo">
+        <tr>
+            <th>تسلسل</th>
+            <th>رقم المادة</th>
+            <th>اسم المادة</th>
+            <th>الكمية</th>
+            <th>صورة للمادة</th>
+        </tr>
+    </table>
+
+    <button id="finishButton" onclick="finishOrder()">انهاء</button>
+</div>
+
+<script>
+    const acceptedItems = [
+        { sequence: 1, number: 10505066, name: 'ارز بسمتي', quantity: 500, image: 'NewFolder1/WwWZCPybkXIHCvkrENm51xOPqPJiTc3RcJwD5cP2.jpg' },
+        { sequence: 2, number: 10209077, name: 'سكر نادر', quantity: 200, image: 'NewFolder1/6251088000039.jpg' },
+        // يمكنك إضافة المزيد من العناصر هنا
+    ];
+
+    const acceptedItemInfo = document.getElementById('acceptedItemInfo');
+    for (const item of acceptedItems) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${item.sequence}</td>
+                <td>${item.number}</td>
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td><img src="${item.image}" alt="صورة المادة"></td>`;
+        acceptedItemInfo.appendChild(row);
+    }
+
+    function finishOrder() {
+        // قم بإضافة الإجراءات اللازمة لانهاء الطلبية هنا
+        alert('تم انهاء الطلبية بنجاح!');
+    }
+</script>
+</body>
+</html>

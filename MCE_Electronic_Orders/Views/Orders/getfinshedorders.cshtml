@@ -1,0 +1,673 @@
+﻿@model MCE_Electronic_Orders.Models.Mixed
+@using Microsoft.AspNet.Identity;
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "OrderItems";
+}
+
+<h1>قائمة الطلبات</h1>
+
+<link href="~/css/Accordion/Bootstrapv337.css" rel="stylesheet" />
+<link href="~/css/Accordion/jquery-ui.css" rel="stylesheet" />
+
+<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+    .highlight {
+        --bs-table-color: white;
+        --bs-table-bg: #64151585 !important;
+        border-color: white;
+    }
+
+    .highlight2 {
+        --bs-table-color: white;
+        --bs-table-bg: #64151585;
+        border-color: white;
+    }
+
+    .receivd {
+
+
+        --bs-table-bg: #5dd17b ;
+    }
+
+</style>
+
+
+
+<div class="form-horizontal">
+    <h4>عرض فاتورة</h4>
+    <hr />
+
+    <div class="panel-group col-lg-12 col-lg-offset-0" id="accordion">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="default" id="OrdersL" data-parent="#accordion" href="#Orders">الطلبيات</a>
+                </h4>
+            </div>
+            <div id="Orders1">
+                <div class="panel-body">
+                    <div class="form-group">
+
+                        @*<p>Header1</p>*@
+                        <div class="col-md-12">
+                            <!-- First Table: Orders of Markets -->
+                            <table class="table table-hover" id="tab1">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th>رقم الطلب</th>
+                                        <th>اسم السوق</th>
+                                        @*<th>تسلسل الفاتورة</th>*@
+                                        <th>الحالة</th>
+                                        <th>تاريخ الانشاء</th>
+                                        <th>الاجراء</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                        {
+                                            foreach (var item in Model.MarketBranchHds.Where(c => c.Flag == 1 && c.Status == 2 || c.Status == 3).OrderBy(x => x.OrderNo))
+                                            {
+                                                if (item.Status == 2)
+                                                {
+                                        <tr class="table-light" data-order-no="@item.OrderNo">
+                                            <th>@item.OrderNo</th>
+                                            @foreach (var market in Model.OrdersMarket.Where(c => c.MarketId == item.BranchNo))
+                                                        {
+                                            <td>@market.MarketName</td>
+                                                        }
+                                            @*<td>@item.ReceiptSer</td>*@
+                                            @foreach (var Lockup in Model.OrdersLookupTable.Where(c => c.Type == 2 && c.Code == item.Status))
+                                                        {
+                                            <td class="status">@Lockup.Descertion</td>
+
+                                                        }
+                                            <td>@item.RequsetDate</td>
+
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-warning show-order-details" data-order-no="@item.OrderNo">عرض الطلبات</a>
+                                                @*<a class="btn btn-warning show-market-orders" data-order-no="@item.OrderNo">عرض الطلبات</a>*@
+                                            </td>
+
+                                            <td></td>
+                                        </tr>
+
+                                                }
+                                                else
+                                                {
+                                        <tr class="table-light receivd " data-order-no="@item.OrderNo">
+                                            <th>@item.OrderNo</th>
+                                            @foreach (var market in Model.OrdersMarket.Where(c => c.MarketId == item.BranchNo))
+                                                        {
+                                            <td>@market.MarketName</td>
+                                                        }
+                                            @*<td>@item.ReceiptSer</td>*@
+                                            @foreach (var Lockup in Model.OrdersLookupTable.Where(c => c.Type == 2 && c.Code == item.Status))
+                                                        {
+                                            <td class="status">@Lockup.Descertion</td>
+
+                                                        }
+                                            <td>@item.RequsetDate</td>
+
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-warning show-order-details2" data-order-no="@item.OrderNo">عرض الطلبات</a>
+                                                @*<a class="btn btn-warning show-market-orders" data-order-no="@item.OrderNo">عرض الطلبات</a>*@
+                                            </td>
+
+                                            <td></td>
+                                        </tr>
+
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.MarketBranchHds.Where(c => c.Flag == 1).Where(a => a.BranchNo == long.Parse(ViewBag.Branch_id) && a.Status == 2 || a.Status == 3).OrderBy(x => x.OrderNo))
+                                            {
+                                                if (item.Status == 2)
+                                                {
+                                        <tr class="table-light" data-order-no="@item.OrderNo">
+                                            <th>@item.OrderNo</th>
+                                            @foreach (var market in Model.OrdersMarket.Where(c => c.MarketId == item.BranchNo))
+                                                        {
+                                            <td>@market.MarketName</td>
+                                                        }
+                                            @*<td>@item.ReceiptSer</td>*@
+                                            @foreach (var Lockup in Model.OrdersLookupTable.Where(c => c.Type == 2 && c.Code == item.Status))
+                                                        {
+                                            <td class="status">@Lockup.Descertion</td>
+
+                                                        }
+                                            <td>@item.RequsetDate</td>
+
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-warning show-order-details" data-order-no="@item.OrderNo">عرض الطلبات</a>
+                                                @*<a class="btn btn-warning show-market-orders" data-order-no="@item.OrderNo">عرض الطلبات</a>*@
+                                            </td>
+
+                                            <td></td>
+                                        </tr>
+
+                                                }
+                                                else
+                                                {
+                                        <tr class="table-light receivd " data-order-no="@item.OrderNo">
+                                            <th>@item.OrderNo</th>
+                                            @foreach (var market in Model.OrdersMarket.Where(c => c.MarketId == item.BranchNo))
+                                                        {
+                                            <td>@market.MarketName</td>
+                                                        }
+                                            @*<td>@item.ReceiptSer</td>*@
+                                            @foreach (var Lockup in Model.OrdersLookupTable.Where(c => c.Type == 2 && c.Code == item.Status))
+                                                        {
+                                            <td class="status">@Lockup.Descertion</td>
+
+                                                        }
+                                            <td>@item.RequsetDate</td>
+
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-warning show-order-details2" data-order-no="@item.OrderNo">عرض الطلبات</a>
+                                                @*<a class="btn btn-warning show-market-orders" data-order-no="@item.OrderNo">عرض الطلبات</a>*@
+                                            </td>
+
+                                            <td></td>
+                                        </tr>
+
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+
+                            @*<paging total-records="@ViewBag.TotalRecords"
+                                page-no="@ViewBag.PageNo" page-size="@ViewBag.PageSize"></paging>*@
+
+                            <paging total-records="@ViewBag.TotalRecords"
+                                    page-no="@ViewBag.PageNo"
+                                    page-size="@ViewBag.PageSize"
+                                    show-prev-next="true"
+                                    show-total-pages="true"
+                                    show-total-records="true"
+                                    show-page-size-nav="true"
+                                    show-first-numbered-page="true"
+                                    show-last-numbered-page="true"
+                                    gap-size="2"
+                                    max-displayed-pages="3"
+                                    query-string-key-page-no="p"
+                                    query-string-key-page-size="s"
+                                    query-string-value="@@(Request.QueryString.Value)"
+                                    page-size-nav-block-size="10"
+                                    page-size-nav-max-items="3"
+                                    page-size-nav-on-change="get"
+                                    page-size-nav-form-method="this.form.submit();"
+                                    class="row"
+                                    class-paging-control-div="col"
+                                    class-info-div="col"
+                                    class-page-size-div="col"
+                                    class-paging-control="pagination"
+                                    class-active-page="disabled"
+                                    class-disabled-jumping-button="disabled"
+                                    class-total-pages="badge badge-secondary"
+                                    class-total-records="badge badge-info"
+                                    text-page-size="Items per page:"
+                                    text-total-pages="pages"
+                                    text-total-records="records"
+                                    text-first="&laquo;"
+                                    text-last="&raquo;"
+                                    text-previous="&lsaquo;"
+                                    text-next="&rsaquo;"
+                                    sr-text-first="First"
+                                    sr-text-last="Last"
+                                    sr-text-previous="Previous"
+                                    sr-text-next="Next">
+                            </paging>
+
+                        </div>
+
+                    </div>
+                    <button type="button" class="btn btn-success btn-md pull-right" style="visibility:hidden" id="OrdersBtnNext">التالي</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="info" id="OrderItemsL" data-parent="#accordion" href="#OrderItems">مواد الطلبية</a>
+                </h4>
+            </div>
+            <div id="OrderItems" class="panel-collapse collapse">
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        @*<p>Header</p>*@
+                        <div class="col-md-12">
+
+                            <div>
+                                <!-- Third Table: Order Details -->
+                                <div id="order-details" @*style="display: none;"*@>
+                                    <div id="details-container">
+                                        <!-- The details table will be loaded here -->
+                                    </div>
+                                    <div>
+                                        <!-- تم تحديد معرف الطلب الحالي باستخدام data-order-no -->
+                                        <button class="btn btn-danger btn-md pull-right finish-order" data-order-no="">استلام الطلب</button>
+                                       
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*<button type="button" class="btn btn-warning btn-md pull-left" style="visibility:hidden" id="OrderItemsPrevBtn">رجوع</button>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script src="~/js/Accordion/bootstrap337.min.js"></script>
+<script src="~/js/Accordion/jquery310.min.js"></script>
+<script src="~/js/Accordion/jquery-ui-1.13.0.min.js"></script>
+
+
+<script>
+
+    var jQuery_3_1_0 = jQuery.noConflict();
+    
+</script>
+
+<script>
+    jQuery_3_1_0('.show-order-details').attr("onclick", "return jQuery_3_1_0('#OrderItems').collapse('show');")
+    jQuery_3_1_0('.show-order-details2').attr("onclick", "return jQuery_3_1_0('#OrderItems').collapse('show');")
+    /*  $('.show-order-details').attr("onclick", "ShowHide()")*/
+    /* $('.show-order-details').attr("onclick", "return  $('#OrderDetails').collapse('hide');")*/
+    //$('.show-order-details').attr("onclick", "return  $('#OrderItems').collapse('show');")
+
+</script>
+<script>
+    function ShowHide() {
+        jQuery_3_1_0('#OrderDetails').collapse('hide');
+        jQuery_3_1_0('#OrderItems').collapse('show');
+    }
+
+
+    //OrdersBtn Buttons
+    jQuery_3_1_0("#OrdersBtnNext").on("click", function () {
+        jQuery_3_1_0("#OrderItems").collapse('show');
+        jQuery_3_1_0("#Orders").collapse('hide');
+    });
+    jQuery_3_1_0("#OrdersL").on("click", function () {
+        jQuery_3_1_0("#Orders").collapse('show');
+    });
+
+
+    ////OrderDetails Buttons
+    //jQuery_3_1_0("#OrderDetailsNextBtn").on("click", function () {
+    //    jQuery_3_1_0("#OrderItems").collapse('show');
+    //    jQuery_3_1_0("#OrderDetails").collapse('hide');
+    //});
+    //jQuery_3_1_0("#OrderDetailsPrevBtn").on("click", function () {
+    //    jQuery_3_1_0("#Orders").collapse('show');
+    //    jQuery_3_1_0("#OrderDetails").collapse('hide');
+    //});
+
+    //jQuery_3_1_0("#OrderDetailsL").on("click", function () {
+    //    jQuery_3_1_0("#OrderDetails").collapse('show');
+    //});
+
+    //OrderItems Buttons
+
+    jQuery_3_1_0("#OrderItemsPrevBtn").on("click", function () {
+        jQuery_3_1_0("#OrderDetails").collapse('show');
+        jQuery_3_1_0("#OrderItems").collapse('hide');
+    });
+    jQuery_3_1_0("#OrderItemsL").on("click", function () {
+        jQuery_3_1_0("#OrderItems").collapse('show');
+    });
+</script>
+
+
+
+@section Scripts {
+    <script>
+
+        var tableRows = document.querySelectorAll("#tab1 tbody tr");
+
+        for (var i = 0; i < tableRows.length; i++) {
+            tableRows[i].addEventListener("click", function () {
+                var current = document.getElementsByClassName("highlight");
+  
+                if (current.length > 0) {
+                    current[0].className = current[0].className.replace(" highlight", "");
+                }
+                this.className += " highlight";
+            });
+        }
+
+
+        //var tableRows2 = document.querySelectorAll("#market-orders tbody tr");
+
+        //for (var a = 0; a < tableRows2.length; a++) {
+        //    tableRows2[a].addEventListener("click", function () {
+        //        var current2 = document.getElementsByClassName("highlight2");
+
+        //        if (current2.length > 0) {
+        //            current2[0].className = current2[0].className.replace(" highlight2", "");
+        //        }
+        //        this.className += " highlight2";
+
+        //    });
+        //}
+
+
+        jQuery_3_1_0(document).ready(function () {
+
+            jQuery_3_1_0.ajax({
+                url: "/Orders/GetUserBranch1",
+                type: "POST",
+                data: {},
+                success: function (response) {
+                    jQuery_3_1_0(response).each(function () {
+                        var cc = response;
+                        jQuery_3_1_0('#branch_id').val(cc);
+
+                    })
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                    alert("No")
+
+                }
+            });
+
+
+
+
+
+            // Show Market Orders
+            jQuery_3_1_0(".show-market-orders").click(function () {
+                jQuery_3_1_0("#OrderItems").show();
+                jQuery_3_1_0("#Orders").hide();
+            });
+
+            // Show Order Details
+            jQuery_3_1_0(".show-order-details").click(function () {
+                var OrderNo = jQuery_3_1_0(this).data("order-no");
+                jQuery_3_1_0.ajax({
+                    url: "/Orders/GetDetails",
+                    type: "GET",
+                    data: { orderNo: OrderNo },
+                    success: function (response) {
+                        var detailsTable = "<table  class='table table-hover'><thead><tr class='table-primary'><th>رقم العنصر</th><th>اسم العنصر</th><th>الكمية</th><th>الحالة</th><th>السعر</th><th>السعر الإجمالي</th><th>تعديل الكمية</th></tr></thead><tbody>";
+                        jQuery_3_1_0.each(response, function (index, item) {
+                            if (item.itemStatus == 3) {
+                                detailsTable += "<tr  class='table-active' style='text-decoration: line-through;'><td>" + item.itemNo + "</td><td>" + item.itemName + "</td><td class='item-qty'>" + item.itemQty + "</td><td>" + item.itemStatus + "</td><td>" + item.itemPrice + "</td><td>" + item.itemTotalPrice + "</td></tr>";
+
+                            }
+                            else {
+                                detailsTable += "<tr  class='table-active'><td>" + item.itemNo + "</td><td>" + item.itemName + "</td><td class='item-qty'>" + item.itemQty + "</td><td>" + item.itemStatus + "</td><td>" + item.itemPrice + "</td><td>" + item.itemTotalPrice + "</td><td><button class='btn btn-danger edit-quantity' data-item-id='" + item.itemNo + "' data-order-no='" + OrderNo + "'>تعديل الكمية</button></tr>";
+
+                            }
+
+
+                            detailsTable += "<td></td>";
+
+
+
+                        });
+
+                        detailsTable += "</tbody></table>";
+
+                        jQuery_3_1_0("#details-container").html(detailsTable);
+                        // تحديث معرف الطلب الحالي للزر انهاء
+                        jQuery_3_1_0(".finish-order").data("order-no", OrderNo);
+                        jQuery_3_1_0("#order-details").show();
+                        $('.finish-order').css('display', 'block');
+                    }
+                });
+            });
+
+
+
+
+            // Show Order Details
+            jQuery_3_1_0(".show-order-details2").click(function () {
+                var OrderNo = jQuery_3_1_0(this).data("order-no");
+                jQuery_3_1_0.ajax({
+                    url: "/Orders/GetDetails",
+                    type: "GET",
+                    data: { orderNo: OrderNo },
+                    success: function (response) {
+                        var detailsTable = "<table  class='table table-hover'><thead><tr class='table-primary'><th>رقم العنصر</th><th>اسم العنصر</th><th>الكمية</th><th>الحالة</th><th>السعر</th><th>السعر الإجمالي</th></tr></thead><tbody>";
+                        jQuery_3_1_0.each(response, function (index, item) {
+                            if (item.itemStatus == 3) {
+                                detailsTable += "<tr  class='table-active' style='text-decoration: line-through;'><td>" + item.itemNo + "</td><td>" + item.itemName + "</td><td class='item-qty'>" + item.itemQty + "</td><td>" + item.itemStatus + "</td><td>" + item.itemPrice + "</td><td>" + item.itemTotalPrice + "</td></tr>";
+
+                            }
+                            else {
+                                detailsTable += "<tr  class='table-active'><td>" + item.itemNo + "</td><td>" + item.itemName + "</td><td class='item-qty'>" + item.itemQty + "</td><td>" + item.itemStatus + "</td><td>" + item.itemPrice + "</td><td>" + item.itemTotalPrice + "</td></tr>";
+
+                            }
+
+
+                            detailsTable += "<td></td>";
+
+
+
+                        });
+
+                        detailsTable += "</tbody></table>";
+
+                        jQuery_3_1_0("#details-container").html(detailsTable);
+                        // تحديث معرف الطلب الحالي للزر انهاء
+                        jQuery_3_1_0(".finish-order").data("order-no", OrderNo);
+                        jQuery_3_1_0("#order-details").show();
+                        $('.finish-order').css('display', 'none');
+
+
+                       
+                    }
+                });
+            });
+
+
+            // التفاعل مع زر تعديل الكمية داخل جدول تفاصيل الطلب
+
+            jQuery_3_1_0(document).on("click", ".edit-quantity", function () {
+                var itemId = jQuery_3_1_0(this).data('item-id');
+                var oderno = jQuery_3_1_0(this).data('order-no');
+                var newQuantity = prompt("أدخل الكمية الجديدة:");
+                if (newQuantity !== null) {
+                    if (parseInt(newQuantity) == 0) {
+                        alert("يجب ان تكون الكمية اكبر من صفر");
+                        return;
+                    }
+                    var maxQuantity = parseInt(jQuery_3_1_0(this).closest('tr').find('.item-qty').text());
+
+                    if (parseInt(newQuantity) > maxQuantity) {
+                        alert("الكمية المطلوبة تتجاوز الكمية المتاحة");
+                        return;
+                    }
+
+                    jQuery_3_1_0.ajax({
+                        url: "/Orders/EditQuantity",
+                        type: "POST",
+                        data: { itemNo: itemId, newQuantity: newQuantity, OrderNo: oderno },
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+
+                                /*location.reload();*/
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                    jQuery_3_1_0(this).closest('tr').find('.item-qty').text(newQuantity);
+
+                }
+
+            });
+
+            // التفاعل مع زر انهاء داخل جدول تفاصيل الطلب
+            jQuery_3_1_0(".finish-order").click(function () {
+                var OrderNo = jQuery_3_1_0(this).data("order-no");
+                if (confirm("هل أنت متأكد من أنك تريد استلام الطلب؟")) {
+                    jQuery_3_1_0.ajax({
+                        url: "/Orders/getfinshedorders",
+                        type: "POST",
+                        data: { OrderNo: OrderNo },
+                        success: function (response) {
+                            if (response.success) {
+                                //alert(response.message);
+                                // تحديث حالة الطلب في الجدول الأول
+                                jQuery_3_1_0(".order-row[data-order-no='" + OrderNo + "']").find(".status").text("3");
+                               
+                                location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+
+
+
+            // التفاعل مع زر الحذف
+            jQuery_3_1_0(document).on("click", ".delete-item", function () {
+
+                var OrderNo = jQuery_3_1_0(this).data("order-no");
+                var itemId = jQuery_3_1_0(this).data('item-id');
+                if (confirm("هل أنت متأكد من الحذف؟")) {
+                    // تعطيل الأزرار في الصف المحذوف
+                    jQuery_3_1_0(this).closest('tr').find('button').prop('disabled', true);
+                    jQuery_3_1_0(this).closest('tr').find('.undodelete-item').css('visibility', 'inherit');
+                    jQuery_3_1_0(this).closest('tr').find('.undodelete-item').prop('disabled', false);
+                    // وضع خط على الصف المحذوف
+                    jQuery_3_1_0(this).closest('tr').css('text-decoration', 'line-through');
+
+                    // استدعاء الحذف هنا باستخدام AJAX
+                    jQuery_3_1_0.ajax({
+                        url: "/Orders/Delete", // تأكد من تعديل المسار حسب موقع الويب الخاص بك
+                        type: "POST",
+                        data: {
+                            itemId: itemId,
+                            orderno: OrderNo
+                        },
+                        success: function (res) {
+                            if (res.success) {
+                                // يمكنك إظهار رسالة تأكيد أو اتخاذ إجراءات إضافية هنا
+                                alert("تم الحذف بنجاح");
+                            } else {
+                                // في حالة فشل الحذف، يمكنك إظهار رسالة خطأ أو اتخاذ إجراءات إضافية هنا
+                                alert("فشل الحذف!");
+                            }
+                        }
+                    });
+                }
+
+            });
+
+
+            // التفاعل مع زر التراجع عن الحذف
+            jQuery_3_1_0(document).on("click", ".undodelete-item", function () {
+
+                var OrderNo = jQuery_3_1_0(this).data("order-no");
+                var itemId = jQuery_3_1_0(this).data('item-id');
+                if (confirm("هل أنت متأكد من التراجع عن الحذف؟")) {
+                    // وضع خط على الصف المحذوف
+                    jQuery_3_1_0(this).closest('tr').css('text-decoration', 'none');
+                    // تعطيل الأزرار في الصف المحذوف
+                    jQuery_3_1_0(this).closest('tr').find('button').prop('disabled', false);
+
+                    jQuery_3_1_0(this).closest('tr').find('.undodelete-item').css('visibility', 'hidden');
+
+                    // استدعاء الحذف هنا باستخدام AJAX
+                    jQuery_3_1_0.ajax({
+                        url: "/Orders/UnDelete", // تأكد من تعديل المسار حسب موقع الويب الخاص بك
+                        type: "POST",
+                        data: {
+                            itemId: itemId,
+                            orderno: OrderNo
+                        },
+                        success: function (res) {
+                            if (res.success) {
+                                // يمكنك إظهار رسالة تأكيد أو اتخاذ إجراءات إضافية هنا
+                                alert("تم الحذف بنجاح");
+                            } else {
+                                // في حالة فشل الحذف، يمكنك إظهار رسالة خطأ أو اتخاذ إجراءات إضافية هنا
+                                alert("فشل الحذف!");
+                            }
+                        }
+                    });
+                }
+
+            });
+
+            //jQuery_3_1_0(".receive-order").click(function () {
+            //    var OrderNo = jQuery_3_1_0(this).data("order-no");
+            //    if (confirm("هل أنت متأكد من أنك تريد استلام الطلب؟")) {
+            //        jQuery_3_1_0.ajax({
+            //            url: "/Orders/getfinshedorders",
+            //            type: "POST",
+            //            data: { OrderNo: OrderNo },
+            //            success: function (response) {
+            //                if (response.success) {
+            //                    // تحديث حالة الطلب في الجدول الأول
+            //                    jQuery_3_1_0(".order-row[data-order-no='" + OrderNo + "']").find(".status").text("3");
+            //                } else {
+            //                    alert(response.message);
+            //                }
+            //            },
+            //            error: function (error) {
+            //                console.log(error);
+            //            }
+            //        });
+            //    }
+            //});
+
+
+            //jQuery_3_1_0.ajax({
+            //    url: "/Orders/GetCurr_Status",
+            //    type: "POST",
+            //    data: { "type": 2, "code": 1 },
+            //    success: function (response) {
+            //        jQuery_3_1_0(response).each(function () {
+            //            jQuery_3_1_0('.status').text(this.descertion);
+            //        })
+            //    },
+            //    error: function (request, status, error) {
+
+            //    }
+            //});
+
+        });
+
+
+
+
+
+    </script>
+
+
+}
+

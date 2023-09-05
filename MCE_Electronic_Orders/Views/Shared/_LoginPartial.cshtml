@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNet.Identity
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">الطلبية الالكترونية</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        @if (User.Identity.IsAuthenticated)
+        {
+            using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <ul class="navbar-nav mr-auto">
+
+
+                        <li class="nav-item active">
+                            <a class="nav-link active" asp-controller="Home" asp-action="index">
+                                الصفحة الرئيسية
+                            </a>
+                        </li>
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("store") || User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="MarketBranchHds" asp-action="create">اضافة طلب</a>
+                        </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("comp") || User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Orders" asp-action="index">عرض طلبات الاسواق</a>
+                        </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("store") || User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Orders" asp-action="getfinshedorders">عرض الطلبات المنتهية</a>
+                        </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                        {
+                        <li class="nav-item dropdown" style="direction: rtl;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administrator
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @*<a class="dropdown-item" asp-controller="Home" asp-action="Index">Main</a>*@
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Login" asp-route-ReturnUrl="/">Login</a>
+                                <a class="dropdown-item" asp-controller="Admin" asp-action="Index">All User</a>
+                                <a class="dropdown-item" asp-controller="Admin" asp-action="Create">Create User</a>
+                                <a class="dropdown-item" asp-controller="Role" asp-action="Index">All Roles</a>
+                                <a class="dropdown-item" asp-controller="Role" asp-action="Create">Create Role</a>
+                                <a class="dropdown-item" asp-controller="Role" asp-action="Project">Policy Authorization</a>
+                                <a class="dropdown-item" asp-controller="Claims" asp-action="TomFiles">Tom Files</a>
+                                <a class="dropdown-item" asp-controller="Claims" asp-action="PrivateAccess">Private Accesss</a>
+                            </div>
+                        </li>
+                        }
+                        <ul class="nav navbar-nav navbar-right" style="margin-right: 765px;">
+                            <li>
+                                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "", "", routeValues: null, htmlAttributes: new { title = "Manage",style= "color: white;    margin-left: 38%;" })
+                                @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
+                            </li>
+
+                            <div class="col-4">
+                                <a class="btn btn-danger" href="/Account/Logout">تسجيل خروج</a>
+                            </div>
+                            <li>@*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@</li>
+                        </ul>
+                    </ul>
+
+                </div>
+
+
+            }
+
+        }
+    </div>
+
+    
+</nav>

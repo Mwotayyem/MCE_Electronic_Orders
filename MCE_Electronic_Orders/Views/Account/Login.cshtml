@@ -1,0 +1,64 @@
+﻿@model Login
+@{
+    ViewData["Title"] = "تسجيل الدخول";
+}
+<link href="~/css/Login/style.css" rel="stylesheet" />
+
+
+@*<h1 class="bg-info text-white">Login</h1>*@
+<div class="text-danger" asp-validation-summary="All"></div>
+
+<div class="main">
+    <!-- Sing in  Form https://localhost:44398/Admin/Create -->
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="~/img/newmce.png" alt="sing up image"></figure>
+                    <a href="~/Admin/Create" class="~/img/newmce.png">انشاء حساب جديد</a>
+
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">تسجيل الدخول </h2>
+                    <form asp-action="Login" method="post" class="register-form" id="register-form">
+                        <input type="hidden" asp-for="ReturnUrl" />
+
+                        <div class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label asp-for="Email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input asp-for="Email" type="text" placeholder="اسم المستخدم" required />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" asp-for="Password" placeholder="الرقم السري" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label style="display: contents;">تــــذكرنـــي</label>
+
+                                <input style="display:block" type="checkbox" asp-for="RememberMe" class="agree-term" value="true" />
+
+
+                                <br />
+
+                                <a href="~/Account/ForgotPassword" class="images/newmce.png">نسيت كلمة السر  </a>
+                            </div>
+
+                            <div class="form-group form-button">
+
+                                <button style="font-weight: 800; color: white; background-color: #2c3e50; font-family: Arial; text-align:center; " class="form-submit" type="submit">دخول</button>
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+

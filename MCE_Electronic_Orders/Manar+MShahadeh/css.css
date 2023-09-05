@@ -1,0 +1,55 @@
+﻿/* أسلوب التنسيق للشاشة */
+body {
+    background-color: white;
+    text-align: right;
+    font-family: Arial, sans-serif;
+    list-style-image: image(url'imag/background.jpg');
+}
+
+header {
+    text-align: center; /* توسيط الصورة في رأس الصفحة */
+}
+
+.content {
+    margin: 20px auto; /* لجعل المحتوى متوسط العرض */
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #cd9269;
+    font-weight: bold;
+    color: white;
+    float: left; /* نقل الأزرار من اليسار إلى اليمين */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    background-color: hsl(120,60%,70%);
+}
+
+th {
+    background-color: hsl(120,60%,70%);
+}
+
+
+img {
+    max-width: 100%; /* ضمان أن الصورة لا تتجاوز حجم الخلية */
+    max-height: 100%;
+}
+
+.hidden {
+    display: none;
+}

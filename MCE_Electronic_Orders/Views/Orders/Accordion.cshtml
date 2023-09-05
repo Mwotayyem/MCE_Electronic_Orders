@@ -1,0 +1,213 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Accordion - Customize icons</title>
+
+    <link href="~/css/Accordion/Bootstrapv337.css" rel="stylesheet" />
+    <link href="~/css/Accordion/jquery-ui.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="form-horizontal">
+        <h4>Add</h4>
+        <hr />
+        <div class="panel-group col-lg-12 col-lg-offset-0" id="accordion">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="default" id="GetPatientDataL" data-parent="#accordion" href="#GetPatientData">Get Patient Data</a>
+                    </h4>
+                </div>
+                <div id="GetPatientData" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="form-group">
+
+                            <p>Header1</p>
+                            <div class="col-md-10">
+                                <input id="Reset1" type="reset" value="reset" />
+                                <input id="Button1" type="button" value="button" />
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-success btn-md pull-right" id="GetPatientDataBtn">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="primary" id="GeneralL" data-parent="#accordion" href="#General">General</a>
+                    </h4>
+                </div>
+                <div id="General" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <p>Header</p>
+                            <div class="col-md-10">
+                                <input id="Patient_No_Ref" name="Patient_No_Ref" class="form-control" type="text" />
+                                <input id="Button1" type="button" value="button" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p>Header</p>
+                            <div class="col-md-10">
+                                <input id="Patient_No_Ref" name="Patient_No_Ref" class="form-control" type="text" />
+                                <input id="Button1" type="button" value="button" />
+                            </div>
+                        </div>
+
+
+                        <button type="button" class="btn btn-warning btn-md pull-left" id="GeneralPrevBtn">Prev</button>
+                        <button type="button" class="btn btn-success btn-md pull-right" id="GeneralNextBtn">Next</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="success" id="HistoryL" data-parent="#accordion" href="#History">History</a>
+                    </h4>
+                </div>
+                <div id="History" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <p>Header</p>
+                            <div class="col-md-10">
+                                <input id="Text1" type="text" />
+                                <input id="Submit1" type="submit" value="submit" />
+                            </div>
+                        </div>
+
+
+                        <button type="button" class="btn btn-warning btn-md pull-left" id="HistoryPrevBtn">Prev</button>
+                        <button type="button" class="btn btn-success btn-md pull-right" id="HistoryNextBtn">Next</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="info" id="Menstrual_periodL" data-parent="#accordion" href="#Menstrual_period">Menstrual period</a>
+                    </h4>
+                </div>
+                <div id="Menstrual_period" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <p>Header</p>
+                            <div class="col-md-10">
+
+                                <input id="Text1" type="text" /><input id="Submit1" type="submit" value="submit" />
+                            </div>
+                        </div>
+
+
+                        <button type="button" class="btn btn-warning btn-md pull-left" id="Menstrual_periodPrevBtn">Prev</button>
+                        <button type="button" class="btn btn-success btn-md pull-right" id="Menstrual_periodNextBtn">Next</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="danger" id="SummaryL" data-parent="#accordion" href="#Summary">Summary</a>
+                    </h4>
+                </div>
+                <div id="Summary" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <p>header</p>
+                            <div class="col-md-10">
+                                <input id="Text1" type="text" /><input id="Submit1" type="submit" value="submit" />
+                            </div>
+                        </div>
+
+
+                        <button type="button" class="btn btn-warning btn-md pull-left" id="SummaryPrevBtn">Prev</button>
+                        @*<div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">*@
+                        <input type="submit" value="Create" class="btn btn-danger btn-md pull-right" />
+                        @*</div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <script src="~/js/Accordion/bootstrap337.min.js"></script>
+    <script src="~/js/Accordion/jquery310.min.js"></script>
+    <script src="~/js/Accordion/jquery-ui-1.13.0.min.js"></script>
+    <script>
+
+        //GetPatientDataBtn Buttons
+        $("#GetPatientDataBtn").on("click", function () {
+            $("#General").collapse('show');
+            $("#GetPatientData").collapse('hide');
+        });
+
+        $("#GetPatientDataL").on("click", function () {
+            $("#GetPatientData").collapse('show');
+        });
+
+
+        //General Buttons
+        $("#GeneralNextBtn").on("click", function () {
+            $("#History").collapse('show');
+            $("#General").collapse('hide');
+        });
+        $("#GeneralPrevBtn").on("click", function () {
+            $("#GetPatientData").collapse('show');
+            $("#General").collapse('hide');
+        });
+
+        $("#GeneralL").on("click", function () {
+            $("#General").collapse('show');
+        });
+
+
+        //History Buttons
+        $("#HistoryNextBtn").on("click", function () {
+            $("#Menstrual_period").collapse('show');
+            $("#History").collapse('hide');
+        });
+        $("#HistoryPrevBtn").on("click", function () {
+            $("#General").collapse('show');
+            $("#History").collapse('hide');
+        });
+
+        $("#HistoryL").on("click", function () {
+            $("#History").collapse('show');
+        });
+
+        //Menstrual_period Buttons
+        $("#Menstrual_periodNextBtn").on("click", function () {
+            $("#Patient_Previous_Pregnancies1").collapse('show');
+            $("#Menstrual_period").collapse('hide');
+        });
+        $("#Menstrual_periodPrevBtn").on("click", function () {
+            $("#History").collapse('show');
+            $("#Menstrual_period").collapse('hide');
+        });
+        $("#Menstrual_periodL").on("click", function () {
+            $("#Menstrual_period").collapse('show');
+        });
+    </script>
+
+
+</body>
+</html>
